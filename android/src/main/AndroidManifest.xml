@@ -1,0 +1,39 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.jokui.rao.auth.ali_auth">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m"
+    >
+        <!--协议页面webview-->
+        <activity
+            android:name="com.mobile.auth.gatewayauth.activity.AuthWebVeiwActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            tools:replace="android:configChanges"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme"
+            android:screenOrientation="behind"  />
+
+        <!--联通电信授权页-->
+        <activity
+            android:name="com.mobile.auth.gatewayauth.LoginAuthActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            tools:replace="android:configChanges"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="behind" />
+
+        <!--移动授权页-->
+        <activity
+            android:name="com.cmic.sso.sdk.activity.LoginAuthActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            tools:replace="android:configChanges"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="behind" />
+    </application>
+</manifest>
