@@ -57,8 +57,11 @@
   model.privacyNavTitleColor = [self getColor: [viewConfig stringValueForKey: @"webNavTextColor" defaultValue: @"#000000"]];
   
   /// logo 设置
-  model.logoIsHidden = [viewConfig boolValueForKey: @"logoHidden" defaultValue: YES];
-  UIImage * image = [self changeUriPathToImage: viewConfig[@"logoImgPath"]];
+  model.logoIsHidden = [viewConfig boolValueForKey: @"logoHidden" defaultValue: NO];
+  NSURL *imageURL = [NSURL URLWithString:@"https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png"];
+NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+UIImage *image = [UIImage imageWithData:imageData];
+  // UIImage * image = [self changeUriPathToImage: viewConfig[@"logoImgPath"]];
   if(image != nil){
     /// logo 默认水平居中
     model.logoFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
@@ -165,8 +168,8 @@
   }
   
   model.privacyAlignment = NSTextAlignmentCenter;
-  model.privacyFont = [UIFont fontWithName:@"PingFangSC-Regular" size: [viewConfig floatValueForKey: @"privacyTextSize" defaultValue: 12.0]];
-  model.privacyPreText = [viewConfig stringValueForKey: @"privacyBefore" defaultValue: @"登录即同意"];
+  model.privacyFont = [UIFont fontWithName:@"PingFangSC-Regular" size: [viewConfig floatValueForKey: @"privacyTextSize" defaultValue: 14.0]];
+  model.privacyPreText = [viewConfig stringValueForKey: @"privacyBefore" defaultValue: @"我已阅读并同意"];
   model.privacyOperatorPreText = [viewConfig stringValueForKey: @"vendorPrivacyPrefix" defaultValue: @"《"];
   model.privacyOperatorSufText = [viewConfig stringValueForKey: @"vendorPrivacySuffix" defaultValue: @"》"];
   
