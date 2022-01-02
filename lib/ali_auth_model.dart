@@ -712,7 +712,7 @@ AliAuthModel getDialogConfig() {
     'navHidden': false,
     'logoHidden': false,
     'logoImgPath':
-        'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png"',
+        'https://zjcem-xy.oss-cn-beijing.aliyuncs.com/appimages/mobile-reg-banner.png',
     'logoWidth': screenWidth,
     'logoHeight': 90,
     'logoOffsetY': 20,
