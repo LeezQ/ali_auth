@@ -187,7 +187,7 @@ class AliAuthModel {
   /// 设置登录按钮相对于屏幕左右边缘边距
   final int? logBtnMarginLeftAndRight;
 
-  /// 设置登录按钮背景图⽚路径 是一个逗号拼接的图片路径 例如：'assets/login_btn_normal.png,assets/login_btn_unable.png,assets/login_btn_press.png'
+  /// 设置登录按钮背景图⽚路径 是一个逗号拼接的图片路径 例如：'assets/images/login_btn_normal.png,assets/images/login_btn_unable.png,assets/images/login_btn_press.png'
   /// 如果设置错误或者找不到图片则使用默认样式
   final String? logBtnBackgroundPath;
 
@@ -711,7 +711,7 @@ AliAuthModel getDialogConfig() {
     'navReturnHidden': false,
     'navHidden': false,
     'logoHidden': false,
-    'logoImgPath': 'assets/taobao.png',
+    'logoImgPath': 'assets/images/taobao.png',
     'logoWidth': screenWidth,
     'logoHeight': 90,
     'logoOffsetY': 20,
@@ -730,7 +730,7 @@ AliAuthModel getDialogConfig() {
     'logBtnHeight': 38,
     'logBtnMarginLeftAndRight': 15,
     'logBtnBackgroundPath':
-        'assets/button_bg.png,assets/button_bg.png,assets/button_bg.png',
+        'assets/images/button_bg.png,assets/images/button_bg.png,assets/images/button_bg.png',
     'logBtnOffsetY': logBtnOffset,
     'loadingImgPath': '',
     'appPrivacyOne':
@@ -763,7 +763,7 @@ AliAuthModel getDialogConfig() {
     'alertBarIsHidden': false,
     'alertTitleBarColor': '#ffffff',
     'alertCloseItemIsHidden': false,
-    'alertCloseImage': 'assets/close.png',
+    'alertCloseImage': 'assets/images/close.png',
     'alertBlurViewColor': '#000',
     'alertBlurViewAlpha': 0.7,
     'alertCornerRadiusArray': '10,10,10,10',

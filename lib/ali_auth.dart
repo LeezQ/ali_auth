@@ -28,9 +28,15 @@ class AliAuthPlugin {
   /// isDialog 是否使用Dialog 弹窗登录 非必须 默认值false 非Dialog登录
   /// debug 是否开启调试模式 非必须 默认true 开启
   /// 使用一键登录传入 SERVICE_TYPE_LOGIN 2  使用号码校验传入 SERVICE_TYPE_AUTH  1 默认值 2
-  static Future<dynamic> initSdk({required String sk}) async {
+  static Future<dynamic> initSdk(
+      {required String sk, AliAuthModel? config}) async {
     /// 判断视图配置
     Map<String, dynamic> data = getDialogConfig().toJson();
+    if (config == null) {
+      config = getDialogConfig();
+    } else {
+      data.addAll(config.toJson());
+    }
 
     return await _channel.invokeMethod("init", {
       'sk': sk,
