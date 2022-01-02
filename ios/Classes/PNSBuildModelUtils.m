@@ -58,7 +58,7 @@
   
   /// logo 设置
   model.logoIsHidden = [viewConfig boolValueForKey: @"logoHidden" defaultValue: NO];
-  NSURL *imageURL = [NSURL URLWithString:@"https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png"];
+  NSURL *imageURL = [NSURL URLWithString:@"https://zjcem-xy.oss-cn-beijing.aliyuncs.com/appimages/banner/reg-banner1638755499637.png"];
 NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
 UIImage *image = [UIImage imageWithData:imageData];
   // UIImage * image = [self changeUriPathToImage: viewConfig[@"logoImgPath"]];

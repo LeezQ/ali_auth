@@ -711,7 +711,8 @@ AliAuthModel getDialogConfig() {
     'navReturnHidden': false,
     'navHidden': false,
     'logoHidden': false,
-    'logoImgPath': 'assets/images/taobao.png',
+    'logoImgPath':
+        'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png"',
     'logoWidth': screenWidth,
     'logoHeight': 90,
     'logoOffsetY': 20,
