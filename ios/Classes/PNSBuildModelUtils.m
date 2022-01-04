@@ -57,23 +57,47 @@
   model.privacyNavTitleColor = [self getColor: [viewConfig stringValueForKey: @"webNavTextColor" defaultValue: @"#000000"]];
   
   /// logo 设置
-  model.logoIsHidden = [viewConfig boolValueForKey: @"logoHidden" defaultValue: NO];
-  NSURL *imageURL = [NSURL URLWithString:@"https://zjcem-xy.oss-cn-beijing.aliyuncs.com/appimages/mobile-reg-banner.png"];
+  model.logoIsHidden = [viewConfig boolValueForKey: @"logoHidden" defaultValue: YES];
+//   NSURL *imageURL = [NSURL URLWithString:@"https://zjcem-xy.oss-cn-beijing.aliyuncs.com/appimages/mobile-reg-banner.png"];
+// NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+// UIImage *image = [UIImage imageWithData:imageData];
+  // UIImage * image = [self changeUriPathToImage: viewConfig[@"logoImgPath"]];
+  // if(image != nil){
+  //   /// logo 默认水平居中
+  //   model.logoFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
+  //     frame.size.width = 300;
+  //     frame.size.height = 80;
+  //     frame.origin.y = 15;
+  //     frame.origin.x = 0;
+  //     return frame;
+  //   };
+  //   model.logoImage = image;
+  // }
+  
+  //添加自定义控件并对自定义控件进行布局
+
+NSURL *imageURL = [NSURL URLWithString:@"https://zjcem-xy.oss-cn-beijing.aliyuncs.com/appimages/mobile-reg-banner.png"];
 NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
 UIImage *image = [UIImage imageWithData:imageData];
-  // UIImage * image = [self changeUriPathToImage: viewConfig[@"logoImgPath"]];
-  if(image != nil){
-    /// logo 默认水平居中
-    model.logoFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
-      frame.size.width = [viewConfig floatValueForKey: @"logoWidth" defaultValue: 80];
-      frame.size.height = [viewConfig floatValueForKey: @"logoHeight" defaultValue: 80];
-      frame.origin.y = [viewConfig floatValueForKey: @"logoOffsetY" defaultValue: screenSize.height > screenSize.width ? 30 : 15];
-      frame.origin.x = (superViewSize.width - [viewConfig floatValueForKey: @"logoWidth" defaultValue: 80]) * 0.5;
-      return frame;
+UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+
+    model.customViewBlock = ^(UIView * _Nonnull superCustomView) {
+         [superCustomView addSubview:imageView];
     };
-    model.logoImage = image;
-  }
-  
+    model.customViewLayoutBlock = ^(CGSize screenSize, CGRect contentViewFrame, CGRect navFrame, CGRect titleBarFrame, CGRect logoFrame, CGRect sloganFrame, CGRect numberFrame, CGRect loginFrame, CGRect changeBtnFrame, CGRect privacyFrame) {
+        CGFloat padding = 15;
+        CGFloat x = 0;
+        CGFloat y = 0;
+        CGFloat width = 0;
+        CGFloat height = 0;
+        
+        x = padding;
+        y = MAX(CGRectGetMaxY(changeBtnFrame), CGRectGetMaxY(loginFrame)) + padding;
+        width = contentViewFrame.size.width - 2 * x;
+        height = 80;
+       
+        imageView.frame = CGRectMake(x, y, width, height);
+    };
   
   /// slogan 设置
   model.sloganIsHidden = [viewConfig boolValueForKey: @"sloganHidden" defaultValue: NO];
@@ -107,6 +131,7 @@ UIImage *image = [UIImage imageWithData:imageData];
       }
       return frame;
   };
+  
   
   /// 登录按钮
   model.loginBtnText = [
@@ -235,7 +260,7 @@ UIImage *image = [UIImage imageWithData:imageData];
     };
     model.sloganFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
         
-            frame.origin.y = 110;
+            frame.origin.y = 80;
             return frame;
       
     };
@@ -256,63 +281,10 @@ UIImage *image = [UIImage imageWithData:imageData];
             return CGRectMake(10, 240, superViewSize.width - 20, 30);
        
     };
-    //model.privacyFrameBlock =
+
+
     
 
-  
-  // bool customView = [viewConfig boolValueForKey: @"isHiddenCustom" defaultValue: NO];
-  // if (!customView) {
-  //   NSArray *customArray = [[viewConfig stringValueForKey: @"customThirdImgPaths" defaultValue: nil] componentsSeparatedByString:@","];
-  //   NSMutableArray * customArrayView = [NSMutableArray array];//空数组，有意义
-  //   if(customArray != nil && customArray.count > 0){
-  //     for (int i = 0 ; i < customArray.count; i++) {
-  //       /// 动态生成imageView 并且加入到 imageView数组中以备使用
-  //       UIImageView *itemView = [
-  //        self customView: customArray[i]
-  //               selector: selector
-  //                 target: target
-  //                  index: i
-  //        ];
-  //       [customArrayView addObject: itemView];
-        
-  //     }
-      
-  //     /// 添加第三方图标
-  //     model.customViewBlock = ^(UIView * _Nonnull superCustomView) {
-  //       for (int i = 0 ; i < customArrayView.count; i++) {
-  //         [superCustomView addSubview: customArrayView[i]];
-  //       }
-  //     };
-      
-  //     /// 第三方图标按钮的相关参数
-  //     int width = [viewConfig intValueForKey: @"customThirdImgWidth" defaultValue: 70];
-  //     int height = [viewConfig intValueForKey: @"customThirdImgHeight" defaultValue: 70];
-  //     int offsetY = [viewConfig intValueForKey: @"customThirdImgOffsetY" defaultValue: 20];
-  //     int space = [viewConfig intValueForKey: @"customThirdImgSpace" defaultValue: 30];
-      
-  //     model.customViewLayoutBlock = ^(
-  //       CGSize screenSize,       /// 全屏参数
-  //       CGRect contentViewFrame, /// contentView参数
-  //       CGRect navFrame,         /// 导航参数
-  //       CGRect titleBarFrame,    /// title参数
-  //       CGRect logoFrame,        /// logo区域参数
-  //       CGRect sloganFrame,      /// slogan参数
-  //       CGRect numberFrame,      /// 号码处参数
-  //       CGRect loginFrame,       /// 登录按钮处的参数
-  //       CGRect changeBtnFrame,   /// 切换到其他的参数
-  //       CGRect privacyFrame      /// 协议区域的参数
-  //     ) {
-  //       NSUInteger count = customArrayView.count;
-  //       for (int i = 0 ; i < count; i++) {
-  //         UIImageView *itemView = (UIImageView *)customArrayView[i];
-  //         // int X = ((screenSize.width - width * count) / (count + 1)) * (i + 1) + (width * i); /// 平均分布
-  //         NSInteger X = (contentViewFrame.size.width - (width * count + space * (count - 1))) / 2 + (space + width) * i; /// 两端评分
-  //         NSInteger Y = offsetY > 50 ? offsetY : CGRectGetMaxY(changeBtnFrame) + offsetY;
-  //         itemView.frame = CGRectMake( X, Y, width, height );
-  //       }
-  //     };
-  //   }
-  // }
   return model;
 }
 

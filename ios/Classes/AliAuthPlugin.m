@@ -206,19 +206,7 @@ bool bool_false = false;
       [[TXCommonHandler sharedInstance] accelerateLoginPageWithTimeout:3.0 complete:^(NSDictionary * _Nonnull resultDic) {
           /// NSLog(@"为后面授权页拉起加个速，加速结果：%@", resultDic);
       }];
-        // 中国移动支持2G/3G/4G、中国联通支持3G/4G、中国电信支持4G。   2G网络下认证失败率较高
-        // WiFi，4G，3G，2G，NoInternet等
-//            NSString *networktype = [[TXCommonUtils init] getNetworktype];
-//            // 中国移动，中国联通，中国电信等
-//            NSString *carrierName = [[TXCommonUtils init] getCurrentCarrierName];
-//            if( [carrierName isEqual:(@"中国移动")] && [networktype isEqual:(@"2G")] && [networktype isEqual:(@"3G")] && [networktype isEqual:(@"4G")] ){
-//              result(@(bool_true));
-//            } else if( [carrierName isEqual:(@"中国联通")] && [networktype isEqual:(@"3G")] && [networktype isEqual:(@"4G")]){
-//              result(@(bool_true));
-//            } else if( [carrierName isEqual:(@"中国电信")] && [networktype isEqual:(@"4G")]){
-//              result(@(bool_true));
-//            }
-//            result(@(bool_false));
+       
       [dict setValue: @"终端环境检查⽀持认证" forKey: @"msg"];
       [dict setValue: @"600024" forKey: @"code"];
       [dict setValue: @(bool_true) forKey: @"data"];
