@@ -33,6 +33,7 @@
     model.alertCloseItemIsHidden = [viewConfig boolValueForKey: @"alertCloseItemIsHidden" defaultValue: NO];
     
     UIImage * alertCloseImage = [self changeUriPathToImage: viewConfig[@"alertCloseImage"]];
+    
     model.alertCloseImage = alertCloseImage?:[UIImage imageNamed:@"icon_close_light"];
     
     model.alertBlurViewColor = UIColor.blackColor;
@@ -65,16 +66,10 @@
     };
     model.customViewLayoutBlock = ^(CGSize screenSize, CGRect contentViewFrame, CGRect navFrame, CGRect titleBarFrame, CGRect logoFrame, CGRect sloganFrame, CGRect numberFrame, CGRect loginFrame, CGRect changeBtnFrame, CGRect privacyFrame) {
         CGFloat padding = 15;
-        CGFloat x = 0;
+        CGFloat x = padding;
         CGFloat y = 0;
-        CGFloat width = 0;
-        CGFloat height = 0;
-        
-        x = padding;
-        y = 0;
-        width = contentViewFrame.size.width - 2 * x;
-        height = 80;
-        
+        CGFloat width = contentViewFrame.size.width - 2 * x;
+        CGFloat height = 80;
         imageView.frame = CGRectMake(x, y, width, height);
     };
     
@@ -90,26 +85,12 @@
         ]
     }
     ];
-    model.sloganFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
-        if (screenSize.height > screenSize.width) {
-            frame.origin.y = [viewConfig floatValueForKey: @"sloganOffsetY" defaultValue: 130];
-            return frame;
-        } else {
-            return CGRectZero;
-        }
-    };
+    
     
     /// number 设置
     model.numberColor = [self getColor: [viewConfig stringValueForKey: @"numberColor" defaultValue: @"#555"]];
     model.numberFont = [UIFont systemFontOfSize: [viewConfig floatValueForKey: @"numberSize" defaultValue: 17]];
-    model.numberFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
-        if (screenSize.height > screenSize.width) {
-            frame.origin.y = [viewConfig floatValueForKey: @"numFieldOffsetY" defaultValue: 130 + 20 + 15];
-        } else {
-            frame.origin.y = 15 + 80 + 15;
-        }
-        return frame;
-    };
+    
     
     /// 登录按钮
     model.loginBtnText = [
@@ -137,7 +118,6 @@
         UIImage *defaultClick = [UIImage imageNamed:@"button_click"];
         UIImage *buttonUnclick = [UIImage imageNamed:@"button_unclick"];
         
-        // fix '*** -[__NSPlaceholderArray initWithObjects:count:]: attempt to insert nil object from objects[0]'
         if ((login_btn_normal != nil && login_btn_unable != nil && login_btn_press != nil) || (defaultClick != nil && buttonUnclick != nil)) {
             // 登录按钮设置
             model.loginBtnBgImgs = @[
@@ -147,18 +127,6 @@
             ];
         }
     }
-    
-    model.loginBtnFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
-        if (screenSize.height > screenSize.width) {
-            frame.size.width = [viewConfig floatValueForKey: @"logBtnWidth" defaultValue: 300];
-            frame.size.height = [viewConfig floatValueForKey: @"logBtnHeight" defaultValue: 40];
-            frame.origin.y = [viewConfig floatValueForKey: @"logBtnOffsetY" defaultValue: 170 + 30 + 20];
-            frame.origin.x = (superViewSize.width - [viewConfig floatValueForKey: @"logBtnWidth" defaultValue: 300]) * 0.5;
-        } else {
-            frame.origin.y = 110 + 30 + 20;
-        }
-        return frame;
-    };
     
     model.privacyOne = [[viewConfig stringValueForKey: @"appPrivacyOne" defaultValue: nil] componentsSeparatedByString:@","];
     model.privacyTwo = [[viewConfig stringValueForKey: @"appPrivacyTwo" defaultValue: nil] componentsSeparatedByString:@","];
@@ -201,13 +169,7 @@
         NSFontAttributeName : [UIFont systemFontOfSize: [viewConfig floatValueForKey: @"changeBtnTitleSize" defaultValue: 18]]
     }
     ];
-    model.changeBtnFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
-        if (screenSize.height > screenSize.width) {
-            return CGRectMake(10, frame.origin.y, superViewSize.width - 20, 30);
-        } else {
-            return CGRectZero; //横屏时模拟隐藏该控件
-        }
-    };
+    
     
     //实现该block，并且返回的frame的x或y大于0，则认为是弹窗谈起授权页
     model.contentViewFrameBlock = ^CGRect(CGSize screenSize, CGSize contentSize, CGRect frame) {
@@ -224,7 +186,7 @@
         return frame;
     };
     model.sloganFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
-        frame.origin.y = 80;
+        frame.origin.y = 100;
         return frame;
     };
     model.numberFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {

@@ -13,10 +13,10 @@ void main() async {
   /// 详情请点击进入查看具体配置
   final result = await AliAuthPlugin.initSdk(
     sk: 'Jzolkj1ks276HlWQLU75/C1F/uawKqnZ9Ft5dgfipwWNn7TuTpUMOjVfvD8FRQcuOxS1xGMPgPS1oY6D1+aewbX6gMg5J7uJVjEuW1LFaTKJ3fo7fkme4L4Hd9n1R0Lm0/MQoB48rkSCT0dVxYNXgYgkRpLCFosa569E6fD5o8t/F50O8uUnHI5Mzl8zgINwyGqnCdr9CVzTBB0PqYO2M8ZMN/f01hBJ5HrVrTYyz17YpT6GKzGIx4OnjMGT741xpjCQJr7zTybNGExYTEj9VA==',
-    // config: AliAuthModel.fromJson({
-    //   "logoImgPath":
-    //       "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png"
-    // }),
+    config: {
+      "eventImg":
+          "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png"
+    },
   );
 
   print(result);
@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
         await AliAuthPlugin.login;
       } else if (event['code'] == '600000') {
         print('获取到的token${event["data"]}');
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
       }
     }
   }
@@ -91,16 +91,16 @@ class _MyAppState extends State<MyApp> {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (_) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height,
-                            color: Color.fromARGB(50, 255, 255, 255),
-                          );
-                        });
+                    // showDialog(
+                    //     barrierDismissible: false,
+                    //     context: context,
+                    //     builder: (_) {
+                    //       return Container(
+                    //         width: MediaQuery.of(context).size.width,
+                    //         height: MediaQuery.of(context).size.height,
+                    //         color: Color.fromARGB(50, 255, 255, 255),
+                    //       );
+                    //     });
                     final result = await AliAuthPlugin.login;
                     print(result);
                   },

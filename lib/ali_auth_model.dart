@@ -730,7 +730,7 @@ AliAuthModel getDialogConfig() {
     'sloganText': 'Hi，欢迎来到掌门点金',
     'sloganTextColor': "#333",
     'sloganTextSize': 20,
-    'sloganOffsetY': logBtnOffset - 100,
+    'sloganOffsetY': logBtnOffset - 180,
     'numberColor': "#FF191C27",
     'numberSize': 24,
     'numFieldOffsetY': logBtnOffset - 50,

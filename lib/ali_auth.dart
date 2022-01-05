@@ -29,13 +29,11 @@ class AliAuthPlugin {
   /// debug 是否开启调试模式 非必须 默认true 开启
   /// 使用一键登录传入 SERVICE_TYPE_LOGIN 2  使用号码校验传入 SERVICE_TYPE_AUTH  1 默认值 2
   static Future<dynamic> initSdk(
-      {required String sk, AliAuthModel? config}) async {
+      {required String sk, Map<String, dynamic>? config}) async {
     /// 判断视图配置
     Map<String, dynamic> data = getDialogConfig().toJson();
-    if (config == null) {
-      config = getDialogConfig();
-    } else {
-      data.addAll(config.toJson());
+    if (config != null) {
+      data.addAll(config);
     }
 
     return await _channel.invokeMethod("init", {
