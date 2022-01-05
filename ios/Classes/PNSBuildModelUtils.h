@@ -17,14 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// 
 + (FlutterViewController *) flutterVC;
 
-/// 创建全屏的model
-+ (TXCustomModel *)buildFullScreenModel;
+///// 创建全屏的model
+//+ (TXCustomModel *)buildFullScreenModel;
 
-/// 创建弹窗的model
-+ (TXCustomModel *)buildAlertModel;
+///// 创建弹窗的model
+//+ (TXCustomModel *)buildAlertModel;
 
 /// 创建全屏的model
-+ (TXCustomModel *)buildNewFullScreenModel: (NSDictionary *) viewConfig selector:(SEL)selector target:(id)target;
+//+ (TXCustomModel *)buildNewFullScreenModel: (NSDictionary *) viewConfig selector:(SEL)selector target:(id)target;
 
 /// 创建弹窗的model
 + (TXCustomModel *)buildNewAlertModel: (NSDictionary *) viewConfig selector:(SEL)selector target:(id)target;

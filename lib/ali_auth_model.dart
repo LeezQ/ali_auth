@@ -339,6 +339,9 @@ class AliAuthModel {
   /// 设置弹窗模式授权⻚Y轴偏移,单位dp
   final int? dialogOffsetY;
 
+  /// 活动图片地址
+  final String? eventImg;
+
   /// 设置授权⻚是否居于底部
   final bool? dialogBottom;
 
@@ -389,6 +392,7 @@ class AliAuthModel {
     this.webNavReturnImgPath,
     this.customNavReturnImageLayoutName,
     this.bottomNavColor,
+    this.eventImg,
     this.logoHidden,
     this.logoImgPath,
     this.logoWidth,
@@ -498,6 +502,7 @@ AliAuthModel _$AliAuthModelFromJson(Map<String, dynamic> json) {
     json['webNavReturnImgPath'] as String?,
     json['customNavReturnImageLayoutName'] as String?,
     json['bottomNavColor'] as String?,
+    json['eventImg'] as String?,
     json['logoHidden'] as bool?,
     json['logoImgPath'] as String?,
     json['logoWidth'] as int?,
@@ -590,6 +595,7 @@ Map<String, dynamic> _$AliAuthModelToJson(AliAuthModel instance) =>
       'lightColor': instance.lightColor,
       'navColor': instance.navColor,
       'navText': instance.navText,
+      'eventImg': instance.eventImg,
       'navTextColor': instance.navTextColor,
       'navTextSize': instance.navTextSize,
       'navReturnImgPath': instance.navReturnImgPath,
@@ -706,11 +712,14 @@ AliAuthModel getDialogConfig() {
     'navTextColor': "#333333",
     'navTextSize': -1,
     'navReturnImgPath': 'icon_close',
+    'webNavColor': '#ffffff',
     'navReturnImgWidth': 30,
     'navReturnImgHeight': 30,
     'navReturnHidden': false,
     'navHidden': false,
     'logoHidden': true,
+    'eventImg':
+        'https://zjcem-xy.oss-cn-beijing.aliyuncs.com/appimages/mobile-reg-banner.png',
     'logoImgPath':
         'https://zjcem-xy.oss-cn-beijing.aliyuncs.com/appimages/mobile-reg-banner.png',
     'logoWidth': 300,

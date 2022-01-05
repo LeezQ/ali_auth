@@ -64,6 +64,7 @@ class _MyAppState extends State<MyApp> {
         await AliAuthPlugin.login;
       } else if (event['code'] == '600000') {
         print('获取到的token${event["data"]}');
+        Navigator.of(context).pop();
       }
     }
   }
@@ -83,12 +84,48 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('阿里云一键登录插件'),
         ),
-        body: ElevatedButton(
-          onPressed: () async {
-            final result = await AliAuthPlugin.login;
-            print(result);
-          },
-          child: Text('直接登录'),
+        body: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (_) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                            color: Color.fromARGB(50, 255, 255, 255),
+                          );
+                        });
+                    final result = await AliAuthPlugin.login;
+                    print(result);
+                  },
+                  child: Text('直接登录'),
+                ),
+                SizedBox(
+                  height: 200,
+                ),
+                Text('asdfasfd'),
+                SizedBox(
+                  height: 200,
+                ),
+                Text('asdfasfd'),
+                SizedBox(
+                  height: 200,
+                ),
+                Text('asdfasfd'),
+                SizedBox(
+                  height: 200,
+                ),
+                Text('asdfasfd'),
+                Text('asdfasfd'),
+              ],
+            ),
+          ),
         ),
       ),
     );
