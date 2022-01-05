@@ -52,10 +52,10 @@ bool bool_false = false;
 }
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
     AliAuthPlugin* instance = [[AliAuthPlugin alloc] init];
-    
+
     FlutterMethodChannel *channel = [FlutterMethodChannel methodChannelWithName:@"ali_auth" binaryMessenger: [registrar messenger]];
     FlutterEventChannel* chargingChannel = [FlutterEventChannel eventChannelWithName:@"ali_auth/event" binaryMessenger: [registrar messenger]];
-    
+
     [chargingChannel setStreamHandler: instance];
     [registrar addMethodCallDelegate:instance channel: channel];
     //为了让手机安装demo弹出使用网络权限弹出框
@@ -91,7 +91,7 @@ bool bool_false = false;
             NSLog(@"联网失败！");
         }
     }];
-    
+
     [dataTask resume];
 }
 
@@ -145,19 +145,19 @@ bool bool_false = false;
         [self initSubviews];
         NSString *secret = dic[@"sk"];
         NSDictionary *config = dic[@"config"];
-        
+
         /// 判断是否是弹窗模式
         _model = [PNSBuildModelUtils buildNewAlertModel: config
                                                selector: @selector(btnClick:)
                                                  target: self];
         _model.supportedInterfaceOrientations = UIInterfaceOrientationMaskPortrait;
-        
-        
+
+
         // __weak typeof(self) weakSelf = self;
         [[TXCommonHandler sharedInstance] setAuthSDKInfo:secret complete:^(NSDictionary * _Nonnull resultDic) {
             /// 打印日志
             // [weakSelf showResult:resultDic];
-            
+
             [[TXCommonHandler sharedInstance] checkEnvAvailableWithAuthType:PNSAuthTypeLoginToken complete:^(NSDictionary * _Nullable resultDic) {
                 if ([PNSCodeSuccess isEqualToString:[resultDic objectForKey:@"resultCode"]] == YES) {
                     NSDictionary *dict = @{
@@ -176,12 +176,12 @@ bool bool_false = false;
                 }
             }];
         }];
-        
+
         //显示版本信息
         NSLog(@"sdk version：%@；cm sdk version：5.7.1.beta；ct sdk version：3.6.2.1；cu sdk version：4.0.1 IR02B1030",
               [[TXCommonHandler sharedInstance] getVersion]
               );
-        
+
     } else {
         NSDictionary *dict = @{
             @"code": @"500000",
@@ -195,7 +195,7 @@ bool bool_false = false;
 /** SDK 判断网络环境是否支持 */
 - (void)checkVerifyEnable:(FlutterMethodCall*)call result:(FlutterResult)result {
     __weak typeof(self) weakSelf = self;
-    
+
     [[TXCommonHandler sharedInstance] checkEnvAvailableWithAuthType:PNSAuthTypeLoginToken complete:^(NSDictionary * _Nullable resultDic) {
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         [dict setValue: [resultDic objectForKey:@"resultCode"] forKey: @"code"];
@@ -206,7 +206,7 @@ bool bool_false = false;
             [[TXCommonHandler sharedInstance] accelerateLoginPageWithTimeout:3.0 complete:^(NSDictionary * _Nonnull resultDic) {
                 /// NSLog(@"为后面授权页拉起加个速，加速结果：%@", resultDic);
             }];
-            
+
             [dict setValue: @"终端环境检查⽀持认证" forKey: @"msg"];
             [dict setValue: @"600024" forKey: @"code"];
             [dict setValue: @(bool_true) forKey: @"data"];
@@ -244,21 +244,21 @@ bool bool_false = false;
 - (void)accelerateLogin:(TXCustomModel *)model call:(FlutterMethodCall*)call result:(FlutterResult)result complete:(void (^)(void))completion {
     float timeout = 5.0; //self.tf_timeout.text.floatValue;
     __weak typeof(self) weakSelf = self;
-    
+
     //1. 调用check接口检查及准备接口调用环境
     [[TXCommonHandler sharedInstance] checkEnvAvailableWithAuthType:PNSAuthTypeLoginToken complete:^(NSDictionary * _Nullable resultDic) {
         if ([PNSCodeSuccess isEqualToString:[resultDic objectForKey:@"resultCode"]] == NO) {
             [weakSelf showResult:resultDic];
             return;
         }
-        
+
         //2. 调用取号接口，加速授权页的弹起
         [[TXCommonHandler sharedInstance] accelerateLoginPageWithTimeout:timeout complete:^(NSDictionary * _Nonnull resultDic) {
             if ([PNSCodeSuccess isEqualToString:[resultDic objectForKey:@"resultCode"]] == NO) {
                 [weakSelf showResult:resultDic];
                 return;
             }
-            
+
             [weakSelf showResult:resultDic];
         }];
     }];
@@ -269,22 +269,22 @@ bool bool_false = false;
     float timeout = 5.0; //self.tf_timeout.text.floatValue;
     __weak typeof(self) weakSelf = self;
     UIViewController *_vc = [self findCurrentViewController];
-    
-    
+
+
     //1. 调用check接口检查及准备接口调用环境
     [[TXCommonHandler sharedInstance] checkEnvAvailableWithAuthType:PNSAuthTypeLoginToken complete:^(NSDictionary * _Nullable resultDic) {
         if ([PNSCodeSuccess isEqualToString:[resultDic objectForKey:@"resultCode"]] == NO) {
             [weakSelf showResult:resultDic];
             return;
         }
-        
+
         //2. 调用取号接口，加速授权页的弹起
         [[TXCommonHandler sharedInstance] accelerateLoginPageWithTimeout:timeout complete:^(NSDictionary * _Nonnull resultDic) {
             if ([PNSCodeSuccess isEqualToString:[resultDic objectForKey:@"resultCode"]] == NO) {
                 [weakSelf showResult:resultDic];
                 return ;
             }
-            
+
             //3. 调用获取登录Token接口，可以立马弹起授权页
             [[TXCommonHandler sharedInstance] getLoginTokenWithTimeout:timeout controller:_vc model:model complete:^(NSDictionary * _Nonnull resultDic) {
                 NSString *code = [resultDic objectForKey:@"resultCode"];
@@ -324,13 +324,9 @@ bool bool_false = false;
 
 #pragma mark -  格式化数据utils返回数据
 - (void)showResult:(id __nullable)showResult  {
-    NSDictionary *dict = @{
-        @"code": [NSString stringWithFormat: @"%@", [showResult objectForKey:@"resultCode"]],
-        @"msg" : [showResult objectForKey:@"msg"]?:@"",
-        @"data" : [showResult objectForKey:@"token"]?:@""
-    };
+    NSDictionary *dict = showResult;
     self->_eventSink(dict);
-    [self showResultLog: showResult];
+//    [self showResultLog: showResult];
 }
 
 #pragma mark -  格式化数据utils统一输出日志
@@ -345,7 +341,7 @@ bool bool_false = false;
             //     desc = [NSString stringWithCString:[desc cStringUsingEncoding:NSUTF8StringEncoding] encoding:NSNonLossyASCIIStringEncoding];
             // }
         }
-        // NSLog( @"打印日志---->>%@", desc );
+        NSLog( @"打印日志---->>%@", desc );
     });
 }
 
@@ -381,7 +377,7 @@ bool bool_false = false;
             @"identityTokenStr": @"",
             @"authorizationCodeStr": @""
         };
-        
+
         if (_eventSink) {
             _eventSink(resultData);
         }
@@ -402,17 +398,17 @@ bool bool_false = false;
         NSString *familyName = appleIDCredential.fullName.familyName;
         NSString *givenName = appleIDCredential.fullName.givenName;
         NSString *email = appleIDCredential.email;
-        
+
         NSData *identityToken = appleIDCredential.identityToken;
         NSData *authorizationCode = appleIDCredential.authorizationCode;
-        
+
         // 服务器验证需要使用的参数
         NSString *identityTokenStr = [[NSString alloc] initWithData:identityToken encoding:NSUTF8StringEncoding];
         NSString *authorizationCodeStr = [[NSString alloc] initWithData:authorizationCode encoding:NSUTF8StringEncoding];
         // NSLog(@"后台参数--%@\n\n%@", identityTokenStr, authorizationCodeStr);
         //        NSLog(@"后台参数identityTokenStr---%@", identityTokenStr);
         //        NSLog(@"后台参数authorizationCodeStr---%@", authorizationCodeStr);
-        
+
         // Create an account in your system.
         // For the purpose of this demo app, store the userIdentifier in the keychain.
         //  需要使用钥匙串的方式保存用户的唯一信息
@@ -421,7 +417,7 @@ bool bool_false = false;
         //        NSLog(@"familyName--%@", familyName);
         //        NSLog(@"givenName--%@", givenName);
         //        NSLog(@"email--%@", email);
-        
+
         NSDictionary *resultData = @{
             @"code": @200,
             @"msg" : @"获取成功",
@@ -432,7 +428,7 @@ bool bool_false = false;
             @"identityTokenStr": identityTokenStr,
             @"authorizationCodeStr": authorizationCodeStr
         };
-        
+
         if (_eventSink) {
             _eventSink(resultData);
         }
@@ -447,7 +443,7 @@ bool bool_false = false;
         NSString *password = passwordCredential.password;
         NSLog(@"user--%@", user);
         NSLog(@"password--%@", password);
-        
+
         NSDictionary *resultData = @{
             @"code": @200,
             @"msg" : @"获取成功",
@@ -458,7 +454,7 @@ bool bool_false = false;
             @"identityTokenStr": @"",
             @"authorizationCodeStr": @""
         };
-        
+
         if (_eventSink) {
             _eventSink(resultData);
         }
@@ -474,7 +470,7 @@ bool bool_false = false;
             @"identityTokenStr": @"",
             @"authorizationCodeStr": @""
         };
-        
+
         if (_eventSink) {
             _eventSink(resultData);
         }
@@ -502,11 +498,11 @@ bool bool_false = false;
         case ASAuthorizationErrorUnknown:
             errorMsg = @"授权请求失败未知原因";
             break;
-            
+
         default:
             break;
     }
-    
+
     NSLog(@"%@", errorMsg);
     NSDictionary *resultData = @{
         @"code": @500,
@@ -518,7 +514,7 @@ bool bool_false = false;
         @"identityTokenStr": @"",
         @"authorizationCodeStr": @""
     };
-    
+
     if (_eventSink) {
         _eventSink(resultData);
     }
