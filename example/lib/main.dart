@@ -16,7 +16,9 @@ void main() async {
     config: {
       "alertBlurViewAlpha": 0.1,
       "alertBlurViewColor": "#FF5500",
-      "alertCornerRadiusArray": '10,10,10,10'
+      "alertCornerRadiusArray": '10,10,10,10',
+      "privacyTextSize": 14,
+      "checkBoxWH": 24,
     },
   );
 
