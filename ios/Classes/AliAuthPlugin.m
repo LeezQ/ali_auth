@@ -3,7 +3,6 @@
 #import <UIKit/UIKit.h>
 
 #import <ATAuthSDK/ATAuthSDK.h>
-//#import "ProgressHUD.h"
 #import "PNSBuildModelUtils.h"
 #import "NSDictionary+Utils.h"
 #import <AuthenticationServices/AuthenticationServices.h>
@@ -105,7 +104,7 @@ bool bool_false = false;
             [self initSdk];
         } else {
             NSDictionary *dict = @{
-                @"code": @"600024",
+                @"resultCode": @"600024",
                 @"msg" : @"终端环境检查⽀持认证",
                 @"data" : @(bool_true)
             };
@@ -116,7 +115,7 @@ bool bool_false = false;
     } else  if ([@"login" isEqualToString:call.method]) {
         if(_model == nil){
             NSDictionary *dict = @{
-                @"code": @"500000",
+                @"resultCode": @"500000",
                 @"msg" : @"请先调用init进行初始化SDK！",
                 @"data" : @""
             };
@@ -154,19 +153,14 @@ bool bool_false = false;
 
             [[TXCommonHandler sharedInstance] checkEnvAvailableWithAuthType:PNSAuthTypeLoginToken complete:^(NSDictionary * _Nullable resultDic) {
                 if ([PNSCodeSuccess isEqualToString:[resultDic objectForKey:@"resultCode"]] == YES) {
-                    NSDictionary *dict = @{
-                        @"code": @"600024",
-                        @"msg" : @"终端环境检查⽀持认证",
-                        @"data" : @(bool_true)
-                    };
-                    self->_result(dict);
+                    self->_result(resultDic);
+
+                    [[TXCommonHandler sharedInstance] accelerateLoginPageWithTimeout:3.0 complete:^(NSDictionary * _Nonnull resultDic) {
+                        NSLog(@"初始化加个速，加速结果：%@", resultDic);
+                    }];
+
                 } else {
-                    NSDictionary *dict = @{
-                        @"code": [NSString stringWithFormat: @"%@", [resultDic objectForKey:@"resultCode"]],
-                        @"msg" : [resultDic objectForKey:@"msg"]?:@"",
-                        @"data" : @(bool_false)
-                    };
-                    self->_result(dict);
+                    self->_result(resultDic);
                 }
             }];
         }];
@@ -178,7 +172,7 @@ bool bool_false = false;
 
     } else {
         NSDictionary *dict = @{
-            @"code": @"500000",
+            @"resultCode": @"500000",
             @"msg" : @"config配置信息出现问题，请检查阿里云控制台sk与包名是否一致",
             @"data" : @""
         };
@@ -192,17 +186,17 @@ bool bool_false = false;
 
     [[TXCommonHandler sharedInstance] checkEnvAvailableWithAuthType:PNSAuthTypeLoginToken complete:^(NSDictionary * _Nullable resultDic) {
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setValue: [resultDic objectForKey:@"resultCode"] forKey: @"code"];
+        [dict setValue: [resultDic objectForKey:@"resultCode"] forKey: @"resultCode"];
         if ([PNSCodeSuccess isEqualToString:[resultDic objectForKey:@"resultCode"]] == NO) {
             [weakSelf showResult:resultDic];
             [dict setValue: @(bool_false) forKey: @"data"];
         } else {
             [[TXCommonHandler sharedInstance] accelerateLoginPageWithTimeout:3.0 complete:^(NSDictionary * _Nonnull resultDic) {
-                /// NSLog(@"为后面授权页拉起加个速，加速结果：%@", resultDic);
+                NSLog(@"为后面授权页拉起加个速，加速结果：%@", resultDic);
             }];
 
             [dict setValue: @"终端环境检查⽀持认证" forKey: @"msg"];
-            [dict setValue: @"600024" forKey: @"code"];
+            [dict setValue: @"600024" forKey: @"resultCode"];
             [dict setValue: @(bool_true) forKey: @"data"];
         }
         self->_eventSink(dict);
@@ -215,7 +209,7 @@ bool bool_false = false;
     NSInteger index = view.tag;
     [[TXCommonHandler sharedInstance] cancelLoginVCAnimated: YES complete:^(void) {
         NSDictionary *dict = @{
-            @"code": @"700005",
+            @"resultCode": @"700005",
             @"msg" : @"点击第三方登录按钮",
             @"data" : [NSNumber numberWithInteger: index]
         };
@@ -320,7 +314,7 @@ bool bool_false = false;
 - (void)showResult:(id __nullable)showResult  {
     NSDictionary *dict = showResult;
     self->_eventSink(dict);
-//    [self showResultLog: showResult];
+    //    [self showResultLog: showResult];
 }
 
 #pragma mark -  格式化数据utils统一输出日志

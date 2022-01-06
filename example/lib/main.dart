@@ -50,6 +50,8 @@ class _MyAppState extends State<MyApp> {
 
   /// 相关登录
   login() async {
+    // AliAuthPlugin.checkVerifyEnable;
+
     /// 登录监听
     AliAuthPlugin.loginListen(
         type: false, onEvent: _onEvent, onError: _onError);
@@ -58,11 +60,11 @@ class _MyAppState extends State<MyApp> {
   /// 登录成功处理
   void _onEvent(event) async {
     print("-------------成功分割线------------$event");
-    if (event != null && event['code'] != null) {
-      if (event['code'] == '600024') {
-        await AliAuthPlugin.login;
-      } else if (event['code'] == '600000') {
-        print('获取到的token${event["data"]}');
+    if (event != null && event['resultCode'] != null) {
+      if (event['resultCode'] == '600024') {
+        // await AliAuthPlugin.login;
+      } else if (event['resultCode'] == '600000') {
+        print('获取到的token${event["token"]}');
         // Navigator.of(context).pop();
       }
     }
