@@ -56,14 +56,16 @@
     NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
     UIImage *image = [UIImage imageWithData:imageData];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    [imageView setContentScaleFactor:[[UIScreen mainScreen] scale]];
+    imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    imageView.clipsToBounds = YES;
 
     model.customViewBlock = ^(UIView * _Nonnull superCustomView) {
         superCustomView.userInteractionEnabled = YES;
         [superCustomView addSubview:imageView];
     };
     model.customViewLayoutBlock = ^(CGSize screenSize, CGRect contentViewFrame, CGRect navFrame, CGRect titleBarFrame, CGRect logoFrame, CGRect sloganFrame, CGRect numberFrame, CGRect loginFrame, CGRect changeBtnFrame, CGRect privacyFrame) {
-        CGFloat padding = 15;
+        CGFloat padding = 10;
         CGFloat x = padding;
         CGFloat y = 0;
         CGFloat width = contentViewFrame.size.width - 2 * padding;
